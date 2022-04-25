@@ -1,7 +1,11 @@
 #include <iostream>
+using nameSpace std;
+class CardWarGame{
 
+};
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    std::cout << "New line" << std::endl;
+   cout << "Hello, World!" << std::endl;
+   cout << "New line" << std::endl;
     return 0;
+
 }
