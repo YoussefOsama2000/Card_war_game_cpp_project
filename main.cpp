@@ -1,6 +1,9 @@
 #include <iostream>
+class CardWarGame{
 
+};
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+
+
+
 }
