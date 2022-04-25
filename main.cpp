@@ -1,11 +1,11 @@
 #include <iostream>
-using nameSpace std;
+using namespace std;
 class CardWarGame{
 
 };
 int main() {
-   cout << "Hello, World!" << std::endl;
-   cout << "New line" << std::endl;
+   cout << "Hello, World!" << endl;
+   cout << "New line" << endl;
     return 0;
 
 }
