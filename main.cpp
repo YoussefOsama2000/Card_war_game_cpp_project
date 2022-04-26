@@ -1,12 +1,96 @@
 #include <iostream>
 using namespace std;
-class Queue{
-    //TODO::will implement the queue here
-};
+
+#define J 11
+#define Q 12
+#define K 13
+#define Club 1
+#define Heart 2
+#define Spade 3
+#define Diamond 4
+
 struct Card
 {
     int type=0;
     int number=0;
+};
+
+class Queue
+{
+    private:
+        struct Card data[52];
+        int front;
+        int back;
+        int itemCount;
+
+    public:
+        Queue()
+        {
+            front = 0;
+            back = -1;
+            itemCount = 0;
+        }
+
+        bool isEmpty() 
+        {
+            return itemCount == 0;
+        }
+
+        bool isFull() 
+        {
+            return itemCount == 52;
+        }
+
+        int size() 
+        {
+            return itemCount;
+        }
+
+        void enqueue(struct Card New_Card)
+        {
+
+            if(!isFull()) 
+            {
+                
+                if(back == 51) 
+                {
+                    back = -1;            
+                }       
+
+                data[++back] = New_Card;
+                itemCount++;
+            } 
+            else 
+            {
+                cout<<"----- Full Queue -----\n";
+            }
+        }  
+
+        struct Card dequeue() 
+        {
+        
+            struct Card Out_Card;
+
+            if(!isEmpty())
+            {
+                Out_Card = data[front++];
+            
+                if(front == 52) 
+                {
+                    front = 0;
+                }
+            
+                itemCount--;
+                
+            } 
+            else 
+            {
+                cout<<"----- Empty Queue -----\n";
+            }
+
+            return Out_Card;
+
+        }
 };
 class CardWarGame{
     //Queues that represent what in players hands
@@ -32,8 +116,26 @@ class CardWarGame{
    }
 };
 int main() {
-   cout << "Hello, World!" << endl;
-   cout << "New line" << endl;
-    return 0;
+    Card cards[5];
+    Queue new_queue;
+    Card current;
 
+    cards[0]={3,5};
+    cards[1]={2,3};
+    cards[2]={1,7};
+    cards[3]={4,6};
+    cards[4]={3,J};
+
+    for(int i=0;i<5;i++)
+        new_queue.enqueue(cards[i]);
+
+      cout<<new_queue.size()<<endl<<endl;
+
+    for(int i=0;i<5;i++)
+    {
+        current=new_queue.dequeue();
+        cout<<current.type<<current.number<<endl;
+    }
+    
+    return 0;
 }
