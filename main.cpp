@@ -1,6 +1,5 @@
 #include <iostream>
 using namespace std;
-<<<<<<< HEAD
 
 #define J 11
 #define Q 12
@@ -10,11 +9,6 @@ using namespace std;
 #define Spade 3
 #define Diamond 4
 
-=======
-class Queue{
-    //TODO::will implement the queue here
-};
->>>>>>> 42c6ead28c8d9dcb3a0c91f0efa4304c69eb8726
 struct Card
 {
     int type=0;
@@ -79,7 +73,7 @@ class Queue
 
             if(!isEmpty())
             {
-                struct Card Out_Card = data[front++];
+                Out_Card = data[front++];
             
                 if(front == 52) 
                 {
@@ -122,8 +116,26 @@ class CardWarGame{
    }
 };
 int main() {
-   cout << "Hello, World!" << endl;
-   cout << "New line" << endl;
-    return 0;
+    Card cards[5];
+    Queue new_queue;
+    Card current;
 
+    cards[0]={3,5};
+    cards[1]={2,3};
+    cards[2]={1,7};
+    cards[3]={4,6};
+    cards[4]={3,J};
+
+    for(int i=0;i<5;i++)
+        new_queue.enqueue(cards[i]);
+
+      cout<<new_queue.size()<<endl<<endl;
+
+    for(int i=0;i<5;i++)
+    {
+        current=new_queue.dequeue();
+        cout<<current.type<<current.number<<endl;
+    }
+    
+    return 0;
 }
