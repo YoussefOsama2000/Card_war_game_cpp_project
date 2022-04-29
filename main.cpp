@@ -93,17 +93,17 @@ class Queue
         }
 };
 
-class node
+class Node
 {
     public:
         Card card;
-        node *next;
+        Node *next;
 
 
-        void listAppend(node **head_ref,Card new_card)
+        void listAppend(Node **head_ref,Card new_card)
             {
-                node *tmp = *head_ref;
-                node *new_node = new node();
+                Node *tmp = *head_ref;
+                Node *new_node = new Node();
                 new_node->card = new_card;
                 new_node->next = NULL;
                 if (!tmp)
@@ -122,12 +122,12 @@ class node
                 }
             }
 
-        void deleteList(node** head_ref)
+        void deleteList(Node** head_ref)
             {
 
                 /* deref head_ref to get the real head */
-                node* current = *head_ref;
-                node* next = NULL;
+                Node* current = *head_ref;
+                Node* next = NULL;
 
                 while (current != NULL)
                 {
@@ -138,7 +138,7 @@ class node
                 *head_ref = NULL;
             }
 
-        Card getnth(node *head_ref, int pos)
+        Card getnth(Node *head_ref, int pos)
             {
                 for (int i=1; i < pos; i++)
                 {
@@ -154,6 +154,17 @@ class node
                 }
                 return head_ref->card;
             }
+
+        int size(Node *head_ref)
+            {
+                int i = 0;
+                while (head_ref)
+                {
+                    i++;
+                    head_ref = head_ref->next;
+                }
+                return i;
+            }
 };
 
 
@@ -165,11 +176,11 @@ class CardWarGame{
     Queue queue1;
     Queue queue2;
     // variables that represents the cards that will be used in the war
-   Card *deckCards1= new Card[26]; //declar arrays in heap to prevent stack overflow
-   Card *deckCards2= new Card[26];
+    Node* deckCards1= new Node(); 
+    Node* deckCards2= new Node();
     //Variables that represent how many cards to draw for each player in the current card war
-    int CardsToDraw1;
-    int CardsToDraw2;
+    int* cardsToBid1=new int [52]; //declare arrays in heap to prevent stack overflow
+    int* cardsToBid2=new int [52];
    CardWarGame(){
    //TODO:: omar ashraf will make a constructor that will prepare two queues that represent cards in each player hands and at the end of the constructor it will call Game Engine function to start the game
    }
@@ -180,12 +191,63 @@ class CardWarGame{
    //TODO:: osama will ask the two players how many cards they want to draw in this turn and update drawInWar1 and drawInWar2 variables
    }
    void GameEngine(){
-    //    Card Player1_Draw,Player2_Draw;
-    //    Player1_Draw=queue1.dequeue();
-    //    Player2_Draw=queue2.dequeue();
+        int warCounter=-1;
+        Card warCard1,warCard2,cardDraw1,cardDraw2;
 
-    //    if(Player1_Draw==Player2_Draw)
-    //     askForWar();
+        cardDraw1=queue1.dequeue();
+        cardDraw2=queue2.dequeue();
+        deckCards1->listAppend(&deckCards1,cardDraw1);
+        deckCards2->listAppend(&deckCards2,cardDraw2);
+
+        while(1)
+        {   
+            print();
+
+            if(cardDraw1.number>cardDraw2.number)    //player 1 wins this round
+                {
+                    for(int i=1; i<=deckCards1->size(deckCards1);i++)
+                        queue1.enqueue(deckCards1->getnth(deckCards1,i));
+
+                    deckCards1->deleteList(&deckCards1);
+
+                    for(int i=1; i<=deckCards2->size(deckCards2);i++)
+                        queue1.enqueue(deckCards2->getnth(deckCards2,i));
+
+                    deckCards2->deleteList(&deckCards2);
+                }
+            else if (cardDraw1.number<cardDraw2.number)     //player 2 wins this round
+                {
+                    for(int i=1; i<=deckCards1->size(deckCards1);i++)
+                        queue2.enqueue(deckCards1->getnth(deckCards1,i));
+
+                    deckCards1->deleteList(&deckCards1);
+
+                    for(int i=1; i<=deckCards2->size(deckCards2);i++)
+                        queue2.enqueue(deckCards2->getnth(deckCards2,i));
+
+                    deckCards2->deleteList(&deckCards2);
+                }
+            else
+                {   
+                    warCounter++;
+                    askForWar();
+                    cardDraw1=deckCards1->getnth(deckCards1,cardsToBid1[warCounter]);
+                    cardDraw2=deckCards1->getnth(deckCards2,cardsToBid2[warCounter]);
+                    continue;   //we enter the loop again but we compare different cards according to the bids 
+                }
+
+            if (queue2.isEmpty())
+            {
+                cout<<"!!! Player 1 wins !!! \n";
+                return;
+            }
+            else if (queue1.isEmpty())
+            {
+                cout<<"!!! Player 2 wins !!! \n";
+                return;
+            }
+
+        }
    }
 };
 int main() {
@@ -210,7 +272,7 @@ int main() {
     //     cout<<current.type<<current.number<<endl;
     // }
     
-    node *head=NULL;
+    Node *head=NULL;
     for(int i=0;i<5;i++)
     head->listAppend(&head,cards[i]);
     // node *tmp=head;
@@ -220,9 +282,10 @@ int main() {
     // cout<<new_card.number<<"\n";
     // tmp=tmp->next;
     // }
-    head->deleteList(&head);
-    Card test_card=head->card;
-    cout<<test_card.type<<"\n";
+    //head->deleteList(&head);
+    //Card test_card=head->card;
+    //cout<<test_card.type<<"\n";
     // cout<<test_card.number<<"\n";
+    //new_card=deckCards1->getnth(deckCards1,5);
     return 0;
 }
