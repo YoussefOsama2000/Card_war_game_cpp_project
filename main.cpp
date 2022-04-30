@@ -117,17 +117,17 @@ public:
 		int temp = 0;
 		for (int i = 0; i < 52; i++) {
 			temp = rand();
-			temp = (temp % (52 - 1 + 1)) + 1; // (rand() % (upper – lower + 1)) + lower
-			if (fullDeck[temp].number != 0) {
+			temp = (temp % (51 - 0 + 1)) + 1; // (rand() % (upper – lower + 1)) + lower
+			if ((fullDeck[temp].number != 0 && fullDeck[temp].type!=0) && temp < 52) {
 				randomizedDeck[i].number = fullDeck[temp].number;
 				randomizedDeck[i].type = fullDeck[temp].type;
 				fullDeck[temp].number = fullDeck[temp].type = 0;
 			} else {
 				temp = rand();
 				temp = (temp % (52 - 1 + 1)) + 1;
-				while (fullDeck[temp].number == 0 && temp < 52) {
+				while ((fullDeck[temp].number == 0 || fullDeck[temp].type==0)) {
 					temp++;
-					if (temp >= 52) {
+					if (temp > 51) {
 						temp = temp % 52;
 					}
 				}
