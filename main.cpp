@@ -179,8 +179,8 @@ class CardWarGame{
     Node* deckCards1= new Node(); 
     Node* deckCards2= new Node();
     //Variables that represent how many cards to draw for each player in the current card war
-    int* cardsToBid1=new int [52]; //declare arrays in heap to prevent stack overflow
-    int* cardsToBid2=new int [52];
+    int cardsToBid1[52]={0}; 
+    int cardsToBid2[52]={0};
    CardWarGame(){
    //TODO:: omar ashraf will make a constructor that will prepare two queues that represent cards in each player hands and at the end of the constructor it will call Game Engine function to start the game
    }
