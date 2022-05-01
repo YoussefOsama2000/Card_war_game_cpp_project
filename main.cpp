@@ -24,10 +24,6 @@
 #include <chrono>
 using namespace std;
 using namespace std::chrono;
-//SPADE   "\x06"
-//CLUB    "\x05"
-//HEART   "\x03"
-//DIAMOND "\x04"
 #define J 11
 #define Q 12
 #define K 13
@@ -344,8 +340,6 @@ public:
         }
     }
     void gameEngine(){
-        int CardsOnDeck1=1;
-        int CardsOnDeck2=1;
         Card cardDraw1,cardDraw2;
         cardDraw1=queue1.dequeue();
         cardDraw2=queue2.dequeue();
@@ -372,8 +366,6 @@ public:
                 deckCards2.push(cardDraw2);
                 cardsToCompare1[0]=deckCards1.peekStack();
                 cardsToCompare2[0]=deckCards2.peekStack();
-                CardsOnDeck1=1;
-                CardsOnDeck2=1;
                 resettingBids();
             }
             else if (cardDraw1.number<cardDraw2.number)     //player 2 wins this round
@@ -391,16 +383,12 @@ public:
                 deckCards2.push(cardDraw2);
                 cardsToCompare1[0]=deckCards1.peekStack();
                 cardsToCompare2[0]=deckCards2.peekStack();
-                CardsOnDeck1=1;
-                CardsOnDeck2=1;
                 resettingBids();
             }
             else
             {
                 warCounter++;
                 globalWarCounter++;
-                CardsOnDeck1=deckCards1.size();
-                CardsOnDeck2=deckCards2.size();
                 print();
                 askForWar();
                 cardDraw1=deckCards1.peekStack();
