@@ -176,7 +176,7 @@ class CardWarGame
     int *cardsToBid2 = new int[52];
 
 public:
-    CardWarGame()
+    CardWarGame() // Constructor that creates a full deck in order then randomizes it and distributes them to both players
     {
         globalWarCounter = 0;
         srand(time(0));
@@ -201,7 +201,7 @@ public:
         for (int i = 0; i < 52; i++)
         {
             temp = rand();
-            temp = (temp % (51 - 0 + 1)) + 1; // (rand() % (upper ï¿½ lower + 1)) + lower
+            temp = (temp % (51 - 0 + 1)) + 1; // (rand() % (upper - lower + 1)) + lower
             if ((fullDeck[temp].number != 0 && fullDeck[temp].type != 0) && temp < 52)
             {
                 randomizedDeck[i].number = fullDeck[temp].number;
@@ -231,7 +231,7 @@ public:
             queue2.enqueue(randomizedDeck[i + 25]);
         }
     }
-    void print()
+    void print() // Prints what happens in each round
     {
         if (system("CLS"))
             ;
@@ -262,7 +262,7 @@ public:
             cin >> continuePlaying;
         }
     }
-    void printCards(Card card1, Card card2)
+    void printCards(Card card1, Card card2) // print 2 cards ,on for each player, in front of each other
     {
         /*
          print cards function prints two cards , it can print one faced up card and the other is flipped
@@ -289,7 +289,7 @@ public:
             cout << (card1.number == 0 && card2.number == 0 ? "            Flipped                              Flipped" : (card1.number == 0 && card2.number == -1 ? "            Flipped" : "                                                 Flipped")) << endl;
         }
     }
-    void askForWar()
+    void askForWar() // in case of draw (equal cards), it determines the number of cards for war for each player
     {
         cout << "!!!this round ends to draw!!! \n \nwe have to play another round" << endl
              << "player 1! \nhow many cards you want to bid in this war?" << endl;
@@ -344,7 +344,7 @@ public:
         cardsToCompare2[warCounter + 1] = deckCards2.peekStack();
     }
 
-    void resettingBids()
+    void resettingBids() // Reset number of cards going for each bid after each round
     {
         delete[] cardsToBid1;
         delete[] cardsToBid2;
@@ -357,7 +357,7 @@ public:
             cardsToBid2[i] = 0;
         }
     }
-    void gameEngine()
+    void gameEngine() // Function that generally manages the game (e.g. who wins the game ,... etc.)
     {
         int CardsOnDeck1 = 1;
         int CardsOnDeck2 = 1;
