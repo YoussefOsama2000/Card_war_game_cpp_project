@@ -233,7 +233,7 @@ public:
             ;
         cout << "           player 1            VS                player  2" << endl
              << "            " << queue1.size() << // tell each player how many cards he has in his hands
-            " Cards"
+             " Cards"
              << "                              " << queue2.size() << " Cards" << endl
              << "____________________________________________________________________" << endl;
         Card card1 = cardsToCompare1[0], card2 = cardsToCompare2[0];
@@ -287,10 +287,12 @@ public:
     }
     void askForWar() // in case of draw (equal cards), it determines the number of cards for war for each player
     {
+
         cout << "!!!this round ends to draw!!! \n \nwe have to play another round" << endl
              << "player 1! \nhow many cards you want to bid in this war?" << endl;
         int player1CardsToBid;
         cin >> player1CardsToBid;
+        while(player1CardsToBid==0){cin.clear();cin.ignore();cout<<"please enter valid input \n";cin>>player1CardsToBid;}
         while (player1CardsToBid > queue1.size() || player1CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue1.size())
@@ -313,6 +315,7 @@ public:
         cout << "player 2! \nhow many cards you want to bid in this war?" << endl;
         int player2CardsToBid;
         cin >> player2CardsToBid;
+         while(player2CardsToBid==0){cin.clear();cin.ignore();cout<<"please enter valid input \n";cin>>player2CardsToBid;}
         while (player2CardsToBid > queue2.size() || player2CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue2.size())
@@ -338,6 +341,8 @@ public:
         cardsToBid2[warCounter] = player2CardsToBid;
         cardsToCompare1[warCounter + 1] = deckCards1.peekStack();
         cardsToCompare2[warCounter + 1] = deckCards2.peekStack();
+     cout<<endl;
+
     }
 
     void resettingBids() // Reset number of cards going for each bid after each round
