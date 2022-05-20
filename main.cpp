@@ -1,4 +1,3 @@
-
 /******************************************************************************
  *
  * Team name: Anubis
@@ -22,6 +21,8 @@
 #include <time.h>
 #include <iostream>
 #include <chrono>
+#include<windows.h>
+#include <bits/stdc++.h>
 using namespace std;
 using namespace std::chrono;
 #define J 11
@@ -31,6 +32,7 @@ using namespace std::chrono;
 #define Heart 2
 #define Spade 3
 #define Diamond 4
+std::chrono::time_point<std::chrono::system_clock> start_war, end_war;
 struct Card
 {
     int type = 0;
@@ -157,6 +159,7 @@ public:
 };
 class CardWarGame
 {
+    //global variable to measuer time complixity
     // Queues that represent what in players hands
     Queue queue1;
     Queue queue2;
@@ -170,6 +173,7 @@ class CardWarGame
     // Variables that represent how many cards to draw for each player in the current card war
     int *cardsToBid1 = new int[52];
     int *cardsToBid2 = new int[52];
+   std::chrono::time_point<std::chrono::system_clock> start_war, end_war;
 
 public:
     CardWarGame() // Constructor that creates a full deck in order then randomizes it and distributes them to both players
@@ -197,7 +201,7 @@ public:
         for (int i = 0; i < 52; i++)
         {
             temp = rand();
-            temp = (temp % (51 - 0 + 1)) + 1; // (rand() % (upper - lower + 1)) + lower
+            temp = (temp % (51 - 0 + 1)) + 0; // (rand() % (upper - lower + 1)) + lower
             if ((fullDeck[temp].number != 0 && fullDeck[temp].type != 0) && temp < 52)
             {
                 randomizedDeck[i].number = fullDeck[temp].number;
@@ -207,7 +211,7 @@ public:
             else
             {
                 temp = rand();
-                temp = (temp % (52 - 1 + 1)) + 1;
+                temp = (temp % (51 - 0 + 1)) + 0;
                 while ((fullDeck[temp].number == 0 || fullDeck[temp].type == 0))
                 {
                     temp++;
@@ -229,11 +233,12 @@ public:
     }
     void print() // Prints what happens in each round
     {
-        if (system("CLS"))
-            ;
+        //cout<<endl;
+        if (system("CLS"));
+
         cout << "           player 1            VS                player  2" << endl
              << "            " << queue1.size() << // tell each player how many cards he has in his hands
-            " Cards"
+             " Cards"
              << "                              " << queue2.size() << " Cards" << endl
              << "____________________________________________________________________" << endl;
         Card card1 = cardsToCompare1[0], card2 = cardsToCompare2[0];
@@ -254,9 +259,13 @@ public:
         string continuePlaying;
         while (continuePlaying != "c")
         {
+
             cout << "press c to continue...\n";
             cin >> continuePlaying;
+            cin.ignore(10000,'\n');
+
         }
+
     }
     void printCards(Card card1, Card card2) // print 2 cards ,on for each player, in front of each other
     {
@@ -285,12 +294,14 @@ public:
             cout << (card1.number == 0 && card2.number == 0 ? "            Flipped                              Flipped" : (card1.number == 0 && card2.number == -1 ? "            Flipped" : "                                                 Flipped")) << endl;
         }
     }
+
     void askForWar() // in case of draw (equal cards), it determines the number of cards for war for each player
     {
         cout << "!!!this round ends to draw!!! \n \nwe have to play another round" << endl
              << "player 1! \nhow many cards you want to bid in this war?" << endl;
         int player1CardsToBid;
         cin >> player1CardsToBid;
+        while(player1CardsToBid==0){cin.clear();cin.ignore(10000,'\n');cout<<"please enter valid input \n";cin>>player1CardsToBid;}
         while (player1CardsToBid > queue1.size() || player1CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue1.size())
@@ -313,6 +324,11 @@ public:
         cout << "player 2! \nhow many cards you want to bid in this war?" << endl;
         int player2CardsToBid;
         cin >> player2CardsToBid;
+         while(player2CardsToBid==0){
+             cin.clear();cin.ignore(10000,'\n');cout<<"please enter valid input \n";cin>>player2CardsToBid;}
+
+         start_war = std::chrono::system_clock::now();
+        //ios_base::sync_with_stdio(false);
         while (player2CardsToBid > queue2.size() || player2CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue2.size())
@@ -338,6 +354,8 @@ public:
         cardsToBid2[warCounter] = player2CardsToBid;
         cardsToCompare1[warCounter + 1] = deckCards1.peekStack();
         cardsToCompare2[warCounter + 1] = deckCards2.peekStack();
+     cout<<endl;
+
     }
 
     void resettingBids() // Reset number of cards going for each bid after each round
@@ -381,6 +399,15 @@ public:
                 deckCards2.push(cardDraw2);
                 cardsToCompare1[0] = deckCards1.peekStack();
                 cardsToCompare2[0] = deckCards2.peekStack();
+                if(warCounter>-1)
+                {
+                     auto end_war = std::chrono::system_clock::now();
+                    std::chrono::duration<double> elapsed_seconds = end_war - start_war;
+                    //time_taken *= 1e-9;
+                    cout << "Elapsed time in nanoseconds: "<<elapsed_seconds.count()<<setprecision(9);
+                    //cout<<endl;
+                    Sleep(3000);
+                }
                 resettingBids();
             }
             else if (cardDraw1.number < cardDraw2.number) // player 2 wins this round
@@ -398,6 +425,14 @@ public:
                 deckCards2.push(cardDraw2);
                 cardsToCompare1[0] = deckCards1.peekStack();
                 cardsToCompare2[0] = deckCards2.peekStack();
+                if(warCounter>-1)
+                {
+                    auto end_war = std::chrono::system_clock::now();
+                    std::chrono::duration<double> elapsed_seconds = end_war - start_war;
+                    cout << "Elapsed time in nanoseconds: "<<elapsed_seconds.count()<<setprecision(9);
+                    //cout<<endl;
+                    Sleep(3000);
+                }
                 resettingBids();
             }
             else
