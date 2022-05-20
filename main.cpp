@@ -297,11 +297,16 @@ public:
 
     void askForWar() // in case of draw (equal cards), it determines the number of cards for war for each player
     {
+
         cout << "!!!this round ends to draw!!! \n \nwe have to play another round" << endl
              << "player 1! \nhow many cards you want to bid in this war?" << endl;
         int player1CardsToBid;
         cin >> player1CardsToBid;
+<<<<<<< HEAD
         while(player1CardsToBid==0){cin.clear();cin.ignore(10000,'\n');cout<<"please enter valid input \n";cin>>player1CardsToBid;}
+=======
+        while(player1CardsToBid==0){cin.clear();cin.ignore();cout<<"please enter valid input \n";cin>>player1CardsToBid;}
+>>>>>>> 54c84c019de0e0a06224f262c7fb011e546fc01d
         while (player1CardsToBid > queue1.size() || player1CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue1.size())
@@ -324,11 +329,15 @@ public:
         cout << "player 2! \nhow many cards you want to bid in this war?" << endl;
         int player2CardsToBid;
         cin >> player2CardsToBid;
+<<<<<<< HEAD
          while(player2CardsToBid==0){
              cin.clear();cin.ignore(10000,'\n');cout<<"please enter valid input \n";cin>>player2CardsToBid;}
 
          start_war = std::chrono::system_clock::now();
         //ios_base::sync_with_stdio(false);
+=======
+         while(player2CardsToBid==0){cin.clear();cin.ignore();cout<<"please enter valid input \n";cin>>player2CardsToBid;}
+>>>>>>> 54c84c019de0e0a06224f262c7fb011e546fc01d
         while (player2CardsToBid > queue2.size() || player2CardsToBid < globalWarCounter)
         {
             if (globalWarCounter >= queue2.size())
